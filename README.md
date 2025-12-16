@@ -10,8 +10,6 @@ for i in range(m):
     u, v = map(int, input(f"Cạnh {i+1}: ").split())
     G.add_edge(u, v)
 # THUẬT TOÁN TÔ MÀU GREEDY
-# - Duyệt từng đỉnh
-# - Gán màu nhỏ nhất chưa bị trùng với các đỉnh kề
 colors = {}
 for node in G.nodes():
     # Lấy các màu đã dùng ở các đỉnh kề
@@ -61,9 +59,6 @@ class DisjointSet:
 
 
 # THUẬT TOÁN KRUSKAL
-# - Sắp xếp các cạnh theo trọng số tăng dần
-# - Lần lượt chọn cạnh nhỏ nhất không tạo chu trình
-# ------------------------------------------------------
 def kruskal(n, edges):
     edges.sort(key=lambda x: x[2])  # sắp theo trọng số
     ds = DisjointSet(n)
@@ -90,9 +85,6 @@ for u, v, w in mst:
 print("Tổng trọng số:", total)
 
 
-# ======================================================
-# TÓM TẮT
-# ------------------------------------------------------
 # 1. Tô màu đồ thị:
 #    - Dùng thuật toán Greedy
 #    - Hai đỉnh kề nhau không trùng màu
@@ -100,33 +92,24 @@ print("Tổng trọng số:", total)
 # 2. Kruskal (AKT):
 #    - Tìm cây khung nhỏ nhất
 #    - Dùng Union-Find để tránh chu trình
-#
-# ======================================================
-# THUẬT TOÁN KNN (K-NEAREST NEIGHBORS)
-# Ngôn ngữ: Python
-# Chạy được trên Google Colab / Python thường
-# Nhập dữ liệu động từ bàn phím
-# ======================================================
-
 import numpy as np
 from collections import Counter
 
-# ------------------------------------------------------
+
 # HÀM TÍNH KHOẢNG CÁCH EUCLID
 # Công thức:
 # d(a, b) = sqrt((a1-b1)^2 + (a2-b2)^2 + ... + (an-bn)^2)
-# ------------------------------------------------------
+
 def euclidean_distance(a, b):
     return np.sqrt(np.sum((a - b) ** 2))
 
 
-# ------------------------------------------------------
+
 # HÀM DỰ ĐOÁN KNN
 # X_train : tập dữ liệu huấn luyện
 # y_train : nhãn tương ứng
 # x_test  : điểm cần phân loại
 # k       : số láng giềng gần nhất
-# ------------------------------------------------------
 def knn_predict(X_train, y_train, x_test, k):
     distances = []
 
@@ -145,9 +128,6 @@ def knn_predict(X_train, y_train, x_test, k):
     return Counter(labels).most_common(1)[0][0]
 
 
-# ======================================================
-# PHẦN NHẬP DỮ LIỆU ĐỘNG
-# ======================================================
 
 # Nhập số điểm huấn luyện
 n = int(input("Nhập số điểm huấn luyện: "))
@@ -175,9 +155,7 @@ x_test = np.array(list(map(float, input("Nhập điểm cần phân loại: ").s
 k = int(input("Nhập k: "))
 
 
-# ======================================================
-# KẾT QUẢ
-# ======================================================
+
 result = knn_predict(X_train, y_train, x_test, k)
 print("Kết quả phân loại theo KNN:", result)
 
@@ -191,8 +169,4 @@ print("Kết quả phân loại theo KNN:", result)
 #    - Tính khoảng cách đến tất cả điểm huấn luyện
 #    - Chọn k điểm gần nhất
 #    - Nhãn xuất hiện nhiều nhất là kết quả
-# 4. Độ phức tạp: O(n * d)
-# ======================================================
 
-# 3. Chạy được trên Google Colab
-# ======================================================
