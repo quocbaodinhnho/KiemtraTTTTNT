@@ -1,64 +1,33 @@
-# ======================================================
-# THUẬT TOÁN TÔ MÀU ĐỒ THỊ (GRAPH COLORING - GREEDY)
-# + THUẬT TOÁN AKT (KRUSKAL - CÂY KHUNG NHỎ NHẤT)
-# Ngôn ngữ: Python
-# Chạy trên Google Colab / Python thường
-# ======================================================
-
-
-# ======================================================
-# PHẦN 1: THUẬT TOÁN TÔ MÀU ĐỒ THỊ
-# ======================================================
-
 import networkx as nx
 import matplotlib.pyplot as plt
-
-# ------------------------------------------------------
 # NHẬP DỮ LIỆU ĐỒ THỊ
-# ------------------------------------------------------
 n = int(input("Nhập số đỉnh (Tô màu): "))
 m = int(input("Nhập số cạnh (Tô màu): "))
-
 G = nx.Graph()
 G.add_nodes_from(range(n))
-
 print("Nhập các cạnh (u v):")
 for i in range(m):
     u, v = map(int, input(f"Cạnh {i+1}: ").split())
     G.add_edge(u, v)
-
-# ------------------------------------------------------
 # THUẬT TOÁN TÔ MÀU GREEDY
-# Ý tưởng:
 # - Duyệt từng đỉnh
 # - Gán màu nhỏ nhất chưa bị trùng với các đỉnh kề
-# ------------------------------------------------------
 colors = {}
-
 for node in G.nodes():
     # Lấy các màu đã dùng ở các đỉnh kề
     used_colors = set(colors.get(neigh) for neigh in G.neighbors(node))
-
     # Tìm màu nhỏ nhất chưa dùng
     color = 0
     while color in used_colors:
         color += 1
-
     colors[node] = color
-
-# ------------------------------------------------------
 # HIỂN THỊ KẾT QUẢ TÔ MÀU
-# ------------------------------------------------------
 print("\nKết quả tô màu đồ thị:")
 for node in colors:
     print(f"Đỉnh {node} → Màu {colors[node]}")
-
-# ------------------------------------------------------
 # VẼ ĐỒ THỊ SAU KHI TÔ MÀU
-# ------------------------------------------------------
 color_list = [colors[node] for node in G.nodes()]
 pos = nx.spring_layout(G, seed=42)
-
 plt.figure(figsize=(8, 6))
 nx.draw(
     G,
@@ -71,15 +40,6 @@ nx.draw(
 )
 plt.title("Đồ thị sau khi tô màu (Greedy Coloring)")
 plt.show()
-
-
-# ======================================================
-# PHẦN 2: THUẬT TOÁN AKT (KRUSKAL - MINIMUM SPANNING TREE)
-# ======================================================
-
-# ------------------------------------------------------
-# CẤU TRÚC DISJOINT SET (UNION-FIND)
-# ------------------------------------------------------
 class DisjointSet:
     def __init__(self, n):
         self.parent = list(range(n))
@@ -99,9 +59,8 @@ class DisjointSet:
         return False
 
 
-# ------------------------------------------------------
+
 # THUẬT TOÁN KRUSKAL
-# Ý tưởng:
 # - Sắp xếp các cạnh theo trọng số tăng dần
 # - Lần lượt chọn cạnh nhỏ nhất không tạo chu trình
 # ------------------------------------------------------
@@ -113,13 +72,7 @@ def kruskal(n, edges):
     for u, v, w in edges:
         if ds.union(u, v):
             mst.append((u, v, w))
-
     return mst
-
-
-# ------------------------------------------------------
-# NHẬP DỮ LIỆU ĐỒ THỊ CÓ TRỌNG SỐ
-# ------------------------------------------------------
 n = int(input("\nNhập số đỉnh (Kruskal): "))
 m = int(input("Nhập số cạnh (Kruskal): "))
 
@@ -127,12 +80,7 @@ edges = []
 for i in range(m):
     u, v, w = map(int, input(f"Cạnh {i+1} (u v w): ").split())
     edges.append((u, v, w))
-
-# ------------------------------------------------------
-# KẾT QUẢ CÂY KHUNG NHỎ NHẤT
-# ------------------------------------------------------
 mst = kruskal(n, edges)
-
 print("\nCây khung nhỏ nhất (MST):")
 total = 0
 for u, v, w in mst:
